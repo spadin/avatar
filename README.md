@@ -1,6 +1,13 @@
 # Avatar package
 
-This package exposes user avatars via a simpel URL scheme such as `/avatar/sandropadin.jpg`
+This package exposes user avatars via a simpel URL scheme such
+as `/avatar/sandropadin.jpg`
+
+## Installation
+
+Download a zip of this project. Copy the folder to the `packages`
+folder of your Concrete5 installation. Make sure it is named `avatar`. Go
+to the dashboard under 'Add Functionality' and install this package.
 
 ## Usage
 
