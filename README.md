@@ -5,9 +5,10 @@ as `/avatar/sandropadin.jpg`
 
 ## Installation
 
-Download a zip of this project. Copy the folder to the `packages`
-folder of your Concrete5 installation. Make sure it is named `avatar`. Go
-to the dashboard under 'Add Functionality' and install this package.
+0. Download a zip of this project.
+0. Copy the folder to the `packages` folder of your Concrete5 installation.
+0. Make sure the folder is named `avatar`.
+0. Go to the dashboard under 'Add Functionality' and install the avatar package.
 
 ## Usage
 
