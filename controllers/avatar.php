@@ -28,7 +28,7 @@ class AvatarController extends Controller {
     ));
     $thumb->adaptiveResize($this->width, $this->height);
     $thumb->resize($this->width, $this->height);
-    return $thumb->save($this->newAvatar);
+    return $thumb->save($this->newAvatar, $this->format);
   }
   protected function getImage() {
     $image = null;
