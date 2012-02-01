@@ -1,6 +1,6 @@
 # Avatar package
 
-This package exposes user avatars via a simpel URL scheme such
+This package exposes user avatars via a simple URL scheme such
 as `/avatar/sandropadin.jpg`
 
 ## Installation
@@ -27,3 +27,12 @@ as `/avatar/sandropadin.jpg`
   __GET__ - /avatar/WxH/{userId}.{format}
 
   _Returns_ - just as above, but with the specified dimensions.
+
+
+## Caveats
+
+The `/files/cache` directory must be writeable.
+
+## Credits
+
+Uses the [PHPThumb Library](https://github.com/masterexploder/PHPThumb) to generate the thumbnails.
