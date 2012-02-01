@@ -16,6 +16,9 @@ class AvatarController extends Controller {
       if($this->generateImage()) {
         $image = $this->getImage();
       }
+      else {
+        die("Could not generate image.");
+      }
     }
 
     $this->setContentType($this->content_type);
