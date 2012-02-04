@@ -1,7 +1,7 @@
 <?php
 defined('C5_EXECUTE') or die(_("Access Denied."));
 
-Loader::tool('phpthumb/ThumbLib.inc', null, 'avatar');
+Loader::library('phpthumb/ThumbLib.inc', 'avatar');
 
 class AvatarController extends Controller {
   protected $width, $height, $user, $format, $content_type, $ui;
