@@ -8,7 +8,6 @@ class AvatarController extends Controller {
   protected $originalAvatar, $newAvatar;
 
   public function view($param1, $param2 = null) {
-    $this->setContentType("text/plain");
     $this->apply($param1, $param2);
 
     $image = $this->getImage();
