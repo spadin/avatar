@@ -4,11 +4,12 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
 Loader::library('phpthumb/ThumbLib.inc', 'avatar');
 
 class AvatarController extends Controller {
-  protected $width, $height, $user, $format, $content_type, $ui;
-  protected $originalAvatar, $newAvatar;
+  protected $width, $height, $user, $format, $content_type;
+  protected $ui, $originalAvatar, $newAvatar;
 
   public function view($param1, $param2 = null) {
-    $this->apply($param1, $param2);
+    $this->applyGeneralSettings($param1, $param2);
+    $this->applyImageSettings();
 
     $image = $this->getImage();
     if(!$image) {
@@ -41,7 +42,7 @@ class AvatarController extends Controller {
 
     return $image;
   }
-  protected function apply($param1, $param2) {
+  protected function applyGeneralSettings($param1, $param2) {
     $size = $param1;
     $info = $param2;
 
@@ -71,6 +72,9 @@ class AvatarController extends Controller {
         $this->content_type = "image/jpeg";
     }
 
+    return;
+  }
+  protected function applyImageSettings() {
     if(is_numeric($this->user)) {
       $this->ui = UserInfo::getById($this->user);
     }
