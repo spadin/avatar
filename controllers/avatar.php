@@ -96,7 +96,7 @@ class AvatarController extends Controller {
     }
     $this->originalAvatar = $avatarImagePath;
 
-    $filename = md5(DIR_BASE .':'. $this->ui->getUserId() .':'. $this->width .':'. $this->height .':'. filemtime($this->originalAvatart)) . '.' . $this->format;
+    $filename = md5(DIR_BASE .':'. $this->ui->getUserId() .':'. $this->width .':'. $this->height .':'. filemtime($this->originalAvatar)) . '.' . $this->format;
     $filename = DIR_BASE ."/files/cache/". $filename;
     $this->newAvatar = $filename;
 
