@@ -8,8 +8,10 @@ class AvatarController extends Controller {
   protected $ui, $originalAvatar, $newAvatar;
 
   public function view($param1, $param2 = null) {
-    $this->applyGeneralSettings($param1, $param2);
-    $this->applyImageSettings();
+    $this->setContentType("text/plain");
+    $this->setProperties($param1, $param2);
+    $this->setImageFileProperties();
+    $this->checkCacheHeaders();
 
     $image = $this->getImage();
     if(!$image) {
@@ -22,6 +24,7 @@ class AvatarController extends Controller {
     }
 
     $this->setContentType($this->content_type);
+    $this->setCacheHeaders();
     $image->show();
     exit;
   }
@@ -42,7 +45,7 @@ class AvatarController extends Controller {
 
     return $image;
   }
-  protected function applyGeneralSettings($param1, $param2) {
+  protected function setProperties($param1, $param2) {
     $size = $param1;
     $info = $param2;
 
@@ -61,7 +64,7 @@ class AvatarController extends Controller {
     $this->user   = $user;
     $this->format = $format;
 
-    switch($format) {
+    switch($this->format) {
       case "png":
         $this->content_type = "image/png";
         break;
@@ -71,25 +74,20 @@ class AvatarController extends Controller {
       default:
         $this->content_type = "image/jpeg";
     }
-
-    return;
   }
-  protected function applyImageSettings() {
-    if(is_numeric($this->user)) {
-      $this->ui = UserInfo::getById($this->user);
+  protected function setImageFileProperties() {
+    if(!is_numeric($this->user)) {
+      $ui = UserInfo::getByUserName($this->user);
+      $this->user = $ui->getUserId();
+    }
+
+    if($this->user) {
+      $avatarImagePath = $this->getImagePath();
     }
     else {
-      $this->ui = UserInfo::getByUserName($this->user);
+      $this->user = 0;
     }
 
-    if(!$this->ui) {
-      die('User does not exist.');
-    }
-
-    $ih = Loader::helper('image');
-    $av = Loader::helper('concrete/avatar');
-
-    $avatarImagePath = $av->getImagePath($this->ui, false);
     if(!$avatarImagePath) {
       $avatarImagePath = "/packages/avatar/images/default.png";
     }
@@ -98,12 +96,35 @@ class AvatarController extends Controller {
       $avatarImagePath = DIR_BASE . $avatarImagePath;
     }
     $this->originalAvatar = $avatarImagePath;
-
-    $filename = md5(DIR_BASE .':'. $this->ui->getUserId() .':'. $this->width .':'. $this->height .':'. filemtime($this->originalAvatar)) . '.' . $this->format;
+    $filename = md5(DIR_BASE .':'. $this->user .':'. $this->width .':'. $this->height .':'. filemtime($this->originalAvatar)) . '.' . $this->format;
     $filename = DIR_BASE ."/files/cache/". $filename;
     $this->newAvatar = $filename;
 
     return;
+  }
+  protected function getImagePath() {
+    $src = null;
+		if(file_exists(DIR_FILES_AVATARS . '/' . $this->user . '.jpg')) {
+      $src = REL_DIR_FILES_AVATARS . '/' . $this->user . '.jpg';
+    }
+    elseif(file_exists(DIR_FILES_AVATARS . '/' . $this->user . '.gif')) {
+			$src = REL_DIR_FILES_AVATARS . '/' . $this->user . '.gif';
+		}
+
+    return $src;
+  }
+  protected function setCacheHeaders() {
+    header("Cache-Control: private, max-age=10800, pre-check=10800");
+    header("Pragma: private");
+    header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($this->originalAvatar)) . ' GMT');
+  }
+  protected function checkCacheHeaders() {
+    if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == filemtime($this->originalAvatar))) {
+      $this->setCacheHeaders();
+      header('Last-Modified: '.gmdate('D, d M Y H:i:s', filemtime($this->originalAvatar)).' GMT', true, 304);
+      exit;
+    }
   }
   public function setContentType($contentType) {
     header("Content-type: $contentType");
