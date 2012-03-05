@@ -85,7 +85,7 @@ class AvatarController extends Controller {
       $avatarImagePath = $this->getImagePath();
     }
     else {
-      $this->user = 0;
+      $this->user = -1;
     }
 
     if(!$avatarImagePath) {
