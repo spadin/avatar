@@ -78,17 +78,18 @@ class AvatarController extends Controller {
   protected function setImageFileProperties() {
     if(!is_numeric($this->user)) {
       $ui = UserInfo::getByUserName($this->user);
-      $this->user = $ui->getUserId();
-    }
-
-    if($this->user) {
-      $avatarImagePath = $this->getImagePath();
+      if($ui) $this->user = $ui->getUserId();
+      else $this->user = -1;
     }
     else {
-      $this->user = -1;
+      $ui = UserInfo::getById($this->user);
+      if($ui) $this->user = $ui->getUserId();
+      else $this->user = -1;
     }
 
-    if(!$avatarImagePath) {
+    $avatarImagePath = $this->getImagePath();
+    
+    if($avatarImagePath == null) {
       $avatarImagePath = "/packages/avatar/images/default.png";
       if($this->user < 0) {
         $avatarImagePath = "/packages/avatar/images/notfound.png";
