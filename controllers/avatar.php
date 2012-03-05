@@ -4,8 +4,8 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
 Loader::library('phpthumb/ThumbLib.inc', 'avatar');
 
 class AvatarController extends Controller {
-  protected $width, $height, $user, $format, $content_type, $ui;
-  protected $originalAvatar, $newAvatar;
+  protected $width, $height, $user, $format, $content_type;
+  protected $ui, $originalAvatar, $newAvatar;
 
   public function view($param1, $param2 = null) {
     $this->setContentType("text/plain");
@@ -69,7 +69,7 @@ class AvatarController extends Controller {
         $this->content_type = "image/png";
         break;
       case "gif":
-        $this->content_tyep = "image/gif";
+        $this->content_type = "image/gif";
         break;
       default:
         $this->content_type = "image/jpeg";
@@ -100,7 +100,6 @@ class AvatarController extends Controller {
       $avatarImagePath = DIR_BASE . $avatarImagePath;
     }
     $this->originalAvatar = $avatarImagePath;
-
     $filename = md5(DIR_BASE .':'. $this->user .':'. $this->width .':'. $this->height .':'. filemtime($this->originalAvatar)) . '.' . $this->format;
     $filename = DIR_BASE ."/files/cache/". $filename;
     $this->newAvatar = $filename;
