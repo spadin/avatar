@@ -90,6 +90,9 @@ class AvatarController extends Controller {
 
     if(!$avatarImagePath) {
       $avatarImagePath = "/packages/avatar/images/default.png";
+      if($this->user < 0) {
+        $avatarImagePath = "/packages/avatar/images/notfound.png";
+      }
     }
 
     if(strpos($avatarImagePath, DIR_BASE) === false) {
