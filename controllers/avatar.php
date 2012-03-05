@@ -108,13 +108,13 @@ class AvatarController extends Controller {
   }
   protected function getImagePath() {
     $src = null;
-		if(file_exists(DIR_FILES_AVATARS . '/' . $this->user . '.jpg')) {
+    if(file_exists(DIR_FILES_AVATARS . '/' . $this->user . '.jpg')) {
       $src = REL_DIR_FILES_AVATARS . '/' . $this->user . '.jpg';
     }
     elseif(file_exists(DIR_FILES_AVATARS . '/' . $this->user . '.gif')) {
-			$src = REL_DIR_FILES_AVATARS . '/' . $this->user . '.gif';
-		}
-
+      $src = REL_DIR_FILES_AVATARS . '/' . $this->user . '.gif';
+    }
+    
     return $src;
   }
   protected function setCacheHeaders() {
