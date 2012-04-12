@@ -7,7 +7,12 @@ class AvatarController extends Controller {
   protected $width, $height, $user, $format, $content_type;
   protected $ui, $originalAvatar, $newAvatar;
 
-  public function view($param1, $param2 = null) {
+  public function view($param1 = null, $param2 = null) {
+    // The URL /avatar does not exist, redirect to homepage.
+    if($param1 === null) {
+      $this->redirect("/");
+      exit;
+    }
     $this->setContentType("text/plain");
     $this->setProperties($param1, $param2);
     $this->setImageFileProperties();
