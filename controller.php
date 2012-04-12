@@ -7,7 +7,7 @@ class AvatarPackage extends Package {
 
   protected $pkgHandle = 'avatar';
   protected $appVersionRequired = '5.4.2.2';
-  protected $pkgVersion = '0.9';
+  protected $pkgVersion = '0.9.2';
 
   public function getPackageDescription() {
     return t("User avatars through a simple URL scheme. <a href='http://github.com/spadin/avatar'>View documentation</a>.");
@@ -19,7 +19,12 @@ class AvatarPackage extends Package {
 
   public function install() {
     $pkg  = parent::install();
-    SinglePage::add('avatar', $pkg);
+    $page = SinglePage::add('avatar', $pkg);
+    
+    $page->setAttribute('exclude_nav', true);
+    $page->setAttribute('exclude_page_list', true);
+    $page->setAttribute('exclude_search_index', true);
+    $page->setAttribute('exclude_sitemapxml', true);
   }
 }
 
