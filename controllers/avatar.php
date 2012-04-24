@@ -13,7 +13,6 @@ class AvatarController extends Controller {
       $this->redirect("/");
       exit;
     }
-    $this->setContentType("text/plain");
     $this->setProperties($param1, $param2);
     $this->setImageFileProperties();
     $this->checkCacheHeaders();
