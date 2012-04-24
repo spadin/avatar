@@ -1,7 +1,7 @@
 <?php
 defined('C5_EXECUTE') or die(_("Access Denied."));
 
-Loader::library('phpthumb/ThumbLib.inc', 'avatar');
+Loader::library('3rdparty/phpthumb/ThumbLib.inc', 'avatar');
 
 class AvatarController extends Controller {
   protected $width, $height, $user, $format, $content_type;
@@ -77,6 +77,7 @@ class AvatarController extends Controller {
         $this->content_type = "image/gif";
         break;
       default:
+        $this->format = "jpg";
         $this->content_type = "image/jpeg";
     }
   }
@@ -93,7 +94,7 @@ class AvatarController extends Controller {
     }
 
     $avatarImagePath = $this->getImagePath();
-    
+
     if($avatarImagePath == null) {
       $avatarImagePath = "/packages/avatar/images/default.png";
       if($this->user < 0) {
@@ -119,7 +120,7 @@ class AvatarController extends Controller {
     elseif(file_exists(DIR_FILES_AVATARS . '/' . $this->user . '.gif')) {
       $src = DIR_FILES_AVATARS . '/' . $this->user . '.gif';
     }
-    
+
     return $src;
   }
   protected function setCacheHeaders() {
